@@ -4,6 +4,20 @@ A pen-first note-taking board for Windows — OneNote-style pages, smooth pressu
 
 Built with Electron and plain JavaScript (no framework).
 
+![Handwritten physics notes on ruled paper with highlighter, shapes and a typed exam tip](docs/screenshots/1-notes.png)
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/2-dark.png" alt="Dark theme with chalkboard grid paper and colourful ink"><br><sub><b>Dark theme</b> — chalkboard paper, dark ink auto-brightens</sub></td>
+    <td width="50%"><img src="docs/screenshots/3-lasso-pens.png" alt="Lasso selection toolbar and pen colour / thickness options on dotted paper"><br><sub><b>Lasso &amp; pen options</b> — move, recolour, copy; pick colour &amp; thickness</sub></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="docs/screenshots/4-export.png" alt="Export PDF dialog with A4, Letter and one-long-page options"><br><sub><b>Vector PDF export</b> — A4, Letter, or one long page for smooth scrolling on a phone</sub></td>
+  </tr>
+</table>
+
+<sub>All handwriting in these screenshots is drawn by InkNote's own ink engine.</sub>
+
 ## Features
 
 - **Smooth ink** — custom ink engine: jitter-free strokes (lag-free arc-length smoothing + 1€ filter), even pressure-sensitive width, round joints. Works with pen tablets such as XP-Pen / Wacom (enable *Windows Ink* in the tablet driver for pressure).

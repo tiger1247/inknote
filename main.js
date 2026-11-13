@@ -8,8 +8,9 @@ const DATA_FILE = path.join(DATA_DIR, 'notebook.json');
 const BACKUP_DIR = path.join(DATA_DIR, 'backups');
 const WIN_FILE = path.join(app.getPath('userData'), 'window.json');
 
-const selftestArg = process.argv.find(a => a.startsWith('--selftest='));
-const SELFTEST = selftestArg ? selftestArg.split('=')[1] : null;
+const selftestArg = process.argv.find(a => a.startsWith('--selftest=') || a.startsWith('--demo='));
+const SELFTEST = selftestArg ? selftestArg.slice(selftestArg.indexOf('=') + 1) : null;
+const DEMO = !!selftestArg && selftestArg.startsWith('--demo=');
 
 let win;
 app.setName('InkNote');
@@ -36,7 +37,7 @@ function ensureOnScreen() {
 function readJSON(f, d) { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch { return d; } }
 
 function createWindow() {
-  const st = readJSON(WIN_FILE, {});
+  const st = DEMO ? { w: 1520, h: 950 } : readJSON(WIN_FILE, {});
   win = new BrowserWindow({
     width: st.w || 1400, height: st.h || 900, x: st.x, y: st.y,
     minWidth: 760, minHeight: 520,
@@ -166,7 +167,7 @@ ipcMain.handle('win:titlebar', (e, { color, symbol }) => {
 ipcMain.handle('win:fullscreen', () => { win.setFullScreen(!win.isFullScreen()); return win.isFullScreen(); });
 
 // ---- self test (used only during development) ----
-ipcMain.handle('selftest:get', () => (SELFTEST ? { dir: SELFTEST } : null));
+ipcMain.handle('selftest:get', () => (SELFTEST ? { dir: SELFTEST, demo: DEMO } : null));
 ipcMain.handle('selftest:shot', async (e, name) => {
   const img = await win.webContents.capturePage();
   fs.writeFileSync(path.join(SELFTEST, name), img.toPNG());

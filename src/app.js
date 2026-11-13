@@ -1696,7 +1696,8 @@ async function boot() {
   resize();
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (nb.settings.theme === 'system') applyTheme(); });
   window.addEventListener('focus', () => { bRect = board.getBoundingClientRect(); });
-  if (selftest) runSelftest(selftest);
+  if (selftest && selftest.demo) { const s = document.createElement('script'); s.src = 'demo.js'; document.body.appendChild(s); }
+  else if (selftest) runSelftest(selftest);
 }
 boot();
 
