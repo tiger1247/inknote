@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+<title>InkNote</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+  <header id="topbar">
+    <label class="search nodrag">
+      <i data-ic="search"></i>
+      <input id="search" type="text" placeholder="Search notes" spellcheck="false">
+    </label>
+    <nav id="tabs" class="nodrag">
+      <button data-tab="home">Home</button>
+      <button data-tab="insert">Insert</button>
+      <button data-tab="draw" class="on">Draw</button>
+      <button data-tab="view">View</button>
+    </nav>
+    <div class="top-actions nodrag">
+      <button class="ib" id="btnExport" title="Export PDF (Ctrl+E)"><i data-ic="share"></i></button>
+      <button class="ib" id="btnSettings" title="Settings"><i data-ic="gear"></i></button>
+      <button class="ib" id="btnFull" title="Full screen (F11)"><i data-ic="expand"></i></button>
+    </div>
+  </header>
+
+  <div id="ribbon">
+    <!-- HOME -->
+    <div class="rib" data-rib="home">
+      <button class="ib" data-act="undo" title="Undo (Ctrl+Z)"><i data-ic="undo"></i></button>
+      <button class="ib" data-act="redo" title="Redo (Ctrl+Y)"><i data-ic="redo"></i></button>
+      <span class="sep"></span>
+      <button class="ib" data-act="cut" title="Cut (Ctrl+X)"><i data-ic="cut"></i></button>
+      <button class="ib" data-act="copy" title="Copy (Ctrl+C)"><i data-ic="copy"></i></button>
+      <button class="ib" data-act="paste" title="Paste (Ctrl+V)"><i data-ic="paste"></i></button>
+      <button class="ib" data-act="delete" title="Delete selection (Del)"><i data-ic="trash"></i></button>
+      <span class="sep"></span>
+      <button class="ib" data-tool="lasso" title="Lasso select (L)"><i data-ic="lasso"></i></button>
+      <button class="ib" data-tool="text" title="Type text (T)"><i data-ic="text"></i></button>
+      <span class="sep"></span>
+      <select id="fontSize" title="Text size">
+        <option value="12">12</option><option value="14">14</option><option value="16" selected>16</option>
+        <option value="18">18</option><option value="20">20</option><option value="24">24</option>
+        <option value="28">28</option><option value="32">32</option><option value="40">40</option>
+      </select>
+      <button class="ib txt" data-fmt="bold" title="Bold (Ctrl+B)"><b>B</b></button>
+      <button class="ib txt" data-fmt="italic" title="Italic (Ctrl+I)"><i class="it">I</i></button>
+      <button class="ib txt" data-fmt="underline" title="Underline (Ctrl+U)"><u>U</u></button>
+      <button class="ib txt" data-fmt="insertUnorderedList" title="Bullets"><i data-ic="list"></i></button>
+      <div class="swatches" id="textColors"></div>
+    </div>
+
+    <!-- INSERT -->
+    <div class="rib" data-rib="insert">
+      <button class="ib wide" data-tool="text"><i data-ic="text"></i><span>Text</span></button>
+      <button class="ib wide" data-act="picture"><i data-ic="image"></i><span>Picture</span></button>
+      <span class="sep"></span>
+      <button class="ib" data-shape="line" title="Line"><i data-ic="line"></i></button>
+      <button class="ib" data-shape="arrow" title="Arrow"><i data-ic="arrow"></i></button>
+      <button class="ib" data-shape="rect" title="Rectangle"><i data-ic="rect"></i></button>
+      <button class="ib" data-shape="ellipse" title="Ellipse"><i data-ic="ellipse"></i></button>
+      <span class="sep"></span>
+      <button class="ib wide" data-tool="space"><i data-ic="space"></i><span>Insert space</span></button>
+      <button class="ib wide" data-act="stamp"><i data-ic="calendar"></i><span>Date &amp; time</span></button>
+      <span class="sep"></span>
+      <button class="ib wide" data-act="newpage"><i data-ic="pageplus"></i><span>New page</span></button>
+    </div>
+
+    <!-- DRAW -->
+    <div class="rib on" data-rib="draw">
+      <button class="ib" data-act="undo" title="Undo (Ctrl+Z)"><i data-ic="undo"></i></button>
+      <button class="ib" data-act="redo" title="Redo (Ctrl+Y)"><i data-ic="redo"></i></button>
+      <span class="sep"></span>
+      <button class="ib" data-tool="text" title="Type text (T)"><i data-ic="text"></i></button>
+      <button class="ib" data-tool="lasso" title="Lasso select (L)"><i data-ic="lasso"></i></button>
+      <button class="ib" data-tool="space" title="Insert / remove space"><i data-ic="space"></i></button>
+      <button class="ib" id="btnShapes" data-tool="shape" title="Shapes (S)"><i data-ic="line"></i></button>
+      <span class="sep"></span>
+      <button class="eraser-btn" id="btnEraser" data-tool="eraser" title="Eraser (E) — click again for options"></button>
+      <span class="sep"></span>
+      <div id="pens"></div>
+      <button class="ib" id="btnAddPen" title="Add pen"><i data-ic="plus"></i></button>
+    </div>
+
+    <!-- VIEW -->
+    <div class="rib" data-rib="view">
+      <button class="ib" data-act="zoomout" title="Zoom out (Ctrl -)"><i data-ic="zoomout"></i></button>
+      <button class="ib wide" data-act="zoom100" title="Actual size"><span id="zoomLbl2">100%</span></button>
+      <button class="ib" data-act="zoomin" title="Zoom in (Ctrl +)"><i data-ic="zoomin"></i></button>
+      <button class="ib wide" data-act="fit" title="Fit page width (Ctrl+0)"><i data-ic="fit"></i><span>Page width</span></button>
+      <span class="sep"></span>
+      <div class="seg" id="bgTypes">
+        <button data-bg="plain">Plain</button>
+        <button data-bg="ruled">Ruled</button>
+        <button data-bg="narrow">Narrow</button>
+        <button data-bg="wide">Wide</button>
+        <button data-bg="grid">Grid</button>
+        <button data-bg="dots">Dots</button>
+      </div>
+      <span class="sep"></span>
+      <div class="swatches paper" id="paperColors"></div>
+      <span class="sep"></span>
+      <label class="chk"><input type="checkbox" id="chkMargin"> Margin</label>
+      <label class="chk"><input type="checkbox" id="chkBreaks"> Page breaks</label>
+      <button class="ib wide" data-act="bgall" title="Use this background on every page"><span>Apply to all</span></button>
+      <span class="sep"></span>
+      <button class="ib wide" data-act="theme" title="Light / dark theme"><i data-ic="moon" id="themeIc"></i><span id="themeLbl">Dark</span></button>
+    </div>
+  </div>
+
+  <main id="main">
+    <aside id="sidebar">
+      <div class="col secs">
+        <div class="col-head">Subjects</div>
+        <div class="list" id="secList"></div>
+        <button class="add" id="addSec"><i data-ic="plus"></i> Subject</button>
+      </div>
+      <div class="col pgs">
+        <div class="col-head" id="secName">Pages</div>
+        <div class="list" id="pageList"></div>
+        <button class="add" id="addPage"><i data-ic="plus"></i> Page</button>
+      </div>
+    </aside>
+
+    <div id="board">
+      <canvas id="cMain"></canvas>
+      <div id="overlay"><input id="title" placeholder="Untitled page" spellcheck="false" autocomplete="off"></div>
+      <canvas id="cLive"></canvas>
+      <button id="btnSidebar" title="Show / hide pages"><i data-ic="chevleft"></i></button>
+      <div id="selbar"></div>
+      <div id="zoomCtl">
+        <button data-act="zoomout" title="Zoom out"><i data-ic="minus"></i></button>
+        <button data-act="zoom100" id="zoomLbl" title="Reset to 100%">100%</button>
+        <button data-act="zoomin" title="Zoom in"><i data-ic="plus"></i></button>
+        <button data-act="fit" title="Fit page width"><i data-ic="fit"></i></button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="measure" class="tbox"></div>
+<input type="file" id="filePic" accept="image/*" multiple hidden>
+<div id="pops"></div>
+<div id="toast"></div>
+
+<script src="vendor/perfect-freehand.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

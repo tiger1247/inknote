@@ -1,0 +1,38 @@
+{
+  "name": "inknote",
+  "productName": "InkNote",
+  "version": "1.0.0",
+  "description": "Pen-first note taking board with PDF export",
+  "main": "main.js",
+  "author": "InkNote",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "icon": "electron tools/make-icon.js",
+    "dist": "electron-builder --win nsis portable"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "perfect-freehand": "^1.2.2"
+  },
+  "build": {
+    "appId": "local.inknote.app",
+    "productName": "InkNote",
+    "directories": { "output": "dist" },
+    "files": ["package.json", "main.js", "preload.js", "src/**/*", "build/icon.png"],
+    "win": {
+      "icon": "build/icon.png",
+      "target": ["nsis", "portable"]
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "InkNote"
+    },
+    "portable": { "artifactName": "InkNote-Portable-${version}.exe" }
+  }
+}
