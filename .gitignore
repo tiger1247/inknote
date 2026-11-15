@@ -6,3 +6,4 @@ Thumbs.db
 build/tools/
 build/*.msix
 .claude/
+build/*.zip
