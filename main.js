@@ -14,7 +14,9 @@ const DEMO = !!selftestArg && selftestArg.startsWith('--demo=');
 
 let win;
 app.setName('InkNote');
-if (process.platform === 'win32') app.setAppUserModelId('local.inknote.app');
+// The Microsoft Store (MSIX) package already gives the app its own identity; overriding it there
+// would split taskbar pins/jump lists from the Start menu entry.
+if (process.platform === 'win32' && !process.windowsStore) app.setAppUserModelId('local.inknote.app');
 
 if (!SELFTEST && !app.requestSingleInstanceLock()) app.quit();
 app.on('second-instance', () => {

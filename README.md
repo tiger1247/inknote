@@ -56,6 +56,14 @@ To build a regular installer / portable `.exe` instead (needs code signing to ru
 npm run dist
 ```
 
+## Microsoft Store build
+
+```bash
+python packaging\build_msix.py --store packaging\store.json
+```
+
+This packs `build\InkNote.msix` from an Electron 33 runtime (default: the copy installed by `tools\install-windows.ps1`) plus this app, using MakeAppx from Microsoft.Windows.SDK.BuildTools in `build\tools`. The Store signs the package on upload. `packaging/make_store_images.py` turns `docs/screenshots` into the 1920×1080 Store images, and `packaging/STORE_LISTING.md` has the listing text. Privacy policy: [PRIVACY.md](PRIVACY.md).
+
 ## Shortcuts
 
 | Key | Action |
